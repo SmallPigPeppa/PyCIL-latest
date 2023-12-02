@@ -9,41 +9,42 @@ from convs.ucir_resnet import resnet18 as cosine_resnet18
 from convs.ucir_resnet import resnet34 as cosine_resnet34
 from convs.ucir_resnet import resnet50 as cosine_resnet50
 from convs.linears import SimpleLinear, SplitCosineLinear, CosineLinear
-from convs.modified_represnet import resnet18_rep,resnet34_rep,resnet50_rep
-from convs.resnet_cbam import resnet18_cbam,resnet34_cbam,resnet50_cbam
-from convs.memo_resnet import  get_resnet18_imagenet as get_memo_resnet18 #for MEMO imagenet
-from convs.memo_resnet import  get_resnet50_imagenet as get_memo_resnet50 #for MEMO imagenet
-from convs.memo_cifar_resnet import get_resnet32_a2fc as get_memo_resnet32 #for MEMO cifar
+from convs.modified_represnet import resnet18_rep, resnet34_rep, resnet50_rep
+from convs.resnet_cbam import resnet18_cbam, resnet34_cbam, resnet50_cbam
+from convs.memo_resnet import get_resnet18_imagenet as get_memo_resnet18  # for MEMO imagenet
+from convs.memo_resnet import get_resnet50_imagenet as get_memo_resnet50  # for MEMO imagenet
+from convs.memo_cifar_resnet import get_resnet32_a2fc as get_memo_resnet32  # for MEMO cifar
+
 
 def get_convnet(args, pretrained=False):
     name = args["convnet_type"].lower()
     if name == "resnet32":
         return resnet32()
     elif name == "resnet18":
-        return resnet18(pretrained=pretrained,args=args)
+        return resnet18(pretrained=pretrained, args=args)
     elif name == "resnet34":
-        return resnet34(pretrained=pretrained,args=args)
+        return resnet34(pretrained=pretrained, args=args)
     elif name == "resnet50":
-        return resnet50(pretrained=pretrained,args=args)
+        return resnet50(pretrained=pretrained, args=args)
     elif name == "cosine_resnet18":
-        return cosine_resnet18(pretrained=pretrained,args=args)
+        return cosine_resnet18(pretrained=pretrained, args=args)
     elif name == "cosine_resnet32":
         return cosine_resnet32()
     elif name == "cosine_resnet34":
-        return cosine_resnet34(pretrained=pretrained,args=args)
+        return cosine_resnet34(pretrained=pretrained, args=args)
     elif name == "cosine_resnet50":
-        return cosine_resnet50(pretrained=pretrained,args=args)
+        return cosine_resnet50(pretrained=pretrained, args=args)
     elif name == "resnet18_rep":
-        return resnet18_rep(pretrained=pretrained,args=args)
+        return resnet18_rep(pretrained=pretrained, args=args)
     elif name == "resnet50_rep":
-        return resnet50_rep(pretrained=pretrained,args=args)
+        return resnet50_rep(pretrained=pretrained, args=args)
     elif name == "resnet18_cbam":
-        return resnet18_cbam(pretrained=pretrained,args=args)
+        return resnet18_cbam(pretrained=pretrained, args=args)
     elif name == "resnet34_cbam":
-        return resnet34_cbam(pretrained=pretrained,args=args)
+        return resnet34_cbam(pretrained=pretrained, args=args)
     elif name == "resnet50_cbam":
-        return resnet50_cbam(pretrained=pretrained,args=args)
-    
+        return resnet50_cbam(pretrained=pretrained, args=args)
+
     # MEMO benchmark backbone
     elif name == 'memo_resnet18':
         _basenet, _adaptive_net = get_memo_resnet18()
@@ -54,7 +55,7 @@ def get_convnet(args, pretrained=False):
     elif name == 'memo_resnet32':
         _basenet, _adaptive_net = get_memo_resnet32()
         return _basenet, _adaptive_net
-    
+
     else:
         raise NotImplementedError("Unknown type {}".format(name))
 
@@ -102,10 +103,10 @@ class BaseNet(nn.Module):
         self.eval()
 
         return self
-    
+
     def load_checkpoint(self, args):
         if args["init_cls"] == 50:
-            pkl_name = "{}_{}_{}_B{}_Inc{}".format( 
+            pkl_name = "{}_{}_{}_B{}_Inc{}".format(
                 args["dataset"],
                 args["seed"],
                 args["convnet_type"],
@@ -120,6 +121,7 @@ class BaseNet(nn.Module):
         self.fc.load_state_dict(model_infos['fc'])
         test_acc = model_infos['test_acc']
         return test_acc
+
 
 class IncrementalNet(BaseNet):
     def __init__(self, args, pretrained, gradcam=False):
@@ -191,10 +193,11 @@ class IncrementalNet(BaseNet):
             forward_hook
         )
 
+
 class IL2ANet(IncrementalNet):
 
     def update_fc(self, num_old, num_total, num_aux):
-        fc = self.generate_fc(self.feature_dim, num_total+num_aux)
+        fc = self.generate_fc(self.feature_dim, num_total + num_aux)
         if self.fc is not None:
             weight = copy.deepcopy(self.fc.weight.data)
             bias = copy.deepcopy(self.fc.bias.data)
@@ -202,6 +205,7 @@ class IL2ANet(IncrementalNet):
             fc.bias.data[:num_old] = bias[:num_old]
         del self.fc
         self.fc = fc
+
 
 class CosineIncrementalNet(BaseNet):
     def __init__(self, args, pretrained, nb_proxy=1):
@@ -245,7 +249,7 @@ class BiasLayer_BIC(nn.Module):
     def forward(self, x, low_range, high_range):
         ret_x = x.clone()
         ret_x[:, low_range:high_range] = (
-            self.alpha * x[:, low_range:high_range] + self.beta
+                self.alpha * x[:, low_range:high_range] + self.beta
         )
         return ret_x
 
@@ -321,6 +325,7 @@ class DERNet(nn.Module):
         self.aux_fc = None
         self.task_sizes = []
         self.args = args
+        self.pretrained_weight = None
 
     @property
     def feature_dim(self):
@@ -339,7 +344,7 @@ class DERNet(nn.Module):
 
         out = self.fc(features)  # {logics: self.fc(features)}
 
-        aux_logits = self.aux_fc(features[:, -self.out_dim :])["logits"]
+        aux_logits = self.aux_fc(features[:, -self.out_dim:])["logits"]
 
         out.update({"aux_logits": aux_logits, "features": features})
         return out
@@ -354,6 +359,8 @@ class DERNet(nn.Module):
     def update_fc(self, nb_classes):
         if len(self.convnets) == 0:
             self.convnets.append(get_convnet(self.args))
+            if self.pretrained_weight is not None:
+                self.convnets[0].load_state_dict(self.pretrained_weight, strict=False)
         else:
             self.convnets.append(get_convnet(self.args))
             self.convnets[-1].load_state_dict(self.convnets[-2].state_dict())
@@ -452,6 +459,7 @@ class FOSTERNet(nn.Module):
         self.task_sizes = []
         self.oldfc = None
         self.args = args
+        self.pretrained_weight = None
 
     @property
     def feature_dim(self):
@@ -468,7 +476,7 @@ class FOSTERNet(nn.Module):
         features = [convnet(x)["features"] for convnet in self.convnets]
         features = torch.cat(features, 1)
         out = self.fc(features)
-        fe_logits = self.fe_fc(features[:, -self.out_dim :])["logits"]
+        fe_logits = self.fe_fc(features[:, -self.out_dim:])["logits"]
 
         out.update({"fe_logits": fe_logits, "features": features})
 
@@ -481,6 +489,8 @@ class FOSTERNet(nn.Module):
 
     def update_fc(self, nb_classes):
         self.convnets.append(get_convnet(self.args))
+        if len(self.convnets) == 0 and self.pretrained_weight is not None:
+            self.convnets[0].load_state_dict(self.pretrained_weight, strict=False)
         if self.out_dim is None:
             self.out_dim = self.convnets[-1].out_dim
         fc = self.generate_fc(self.feature_dim, nb_classes)
@@ -532,10 +542,10 @@ class FOSTERNet(nn.Module):
         gamma = meanold / meannew * (value ** (old / increment))
         logging.info("align weights, gamma = {} ".format(gamma))
         self.fc.weight.data[-increment:, :] *= gamma
-    
+
     def load_checkpoint(self, args):
         if args["init_cls"] == 50:
-            pkl_name = "{}_{}_{}_B{}_Inc{}".format( 
+            pkl_name = "{}_{}_{}_B{}_Inc{}".format(
                 args["dataset"],
                 args["seed"],
                 args["convnet_type"],
@@ -551,7 +561,7 @@ class FOSTERNet(nn.Module):
         self.fc.load_state_dict(model_infos['fc'])
         test_acc = model_infos['test_acc']
         return test_acc
-    
+
 
 class BiasLayer(nn.Module):
     def __init__(self):
@@ -559,9 +569,9 @@ class BiasLayer(nn.Module):
         self.alpha = nn.Parameter(torch.zeros(1, requires_grad=True))
         self.beta = nn.Parameter(torch.zeros(1, requires_grad=True))
 
-    def forward(self, x , bias=True):
+    def forward(self, x, bias=True):
         ret_x = x.clone()
-        ret_x = (self.alpha+1) * x # + self.beta
+        ret_x = (self.alpha + 1) * x  # + self.beta
         if bias:
             ret_x = ret_x + self.beta
         return ret_x
@@ -599,7 +609,7 @@ class BEEFISONet(nn.Module):
     def forward(self, x):
         features = [convnet(x)["features"] for convnet in self.convnets]
         features = torch.cat(features, 1)
-        
+
         if self.old_fc is None:
             fc = self.new_fc
             out = fc(features)
@@ -608,25 +618,29 @@ class BEEFISONet(nn.Module):
             merge the weights
             '''
             new_task_size = self.task_sizes[-1]
-            fc_weight = torch.cat([self.old_fc.weight,torch.zeros((new_task_size,self.feature_dim-self.out_dim)).cuda()],dim=0)             
+            fc_weight = torch.cat(
+                [self.old_fc.weight, torch.zeros((new_task_size, self.feature_dim - self.out_dim)).cuda()], dim=0)
             new_fc_weight = self.new_fc.weight
             new_fc_bias = self.new_fc.bias
-            for i in range(len(self.task_sizes)-2,-1,-1):
-                new_fc_weight = torch.cat([*[self.biases[i](self.backward_prototypes.weight[i].unsqueeze(0),bias=False) for _ in range(self.task_sizes[i])],new_fc_weight],dim=0)
-                new_fc_bias = torch.cat([*[self.biases[i](self.backward_prototypes.bias[i].unsqueeze(0),bias=True) for _ in range(self.task_sizes[i])], new_fc_bias])
-            fc_weight = torch.cat([fc_weight,new_fc_weight],dim=1)
-            fc_bias = torch.cat([self.old_fc.bias,torch.zeros(new_task_size).cuda()])
-            fc_bias=+new_fc_bias
-            logits = features@fc_weight.permute(1,0)+fc_bias
-            out = {"logits":logits}        
+            for i in range(len(self.task_sizes) - 2, -1, -1):
+                new_fc_weight = torch.cat([*[self.biases[i](self.backward_prototypes.weight[i].unsqueeze(0), bias=False)
+                                             for _ in range(self.task_sizes[i])], new_fc_weight], dim=0)
+                new_fc_bias = torch.cat([*[self.biases[i](self.backward_prototypes.bias[i].unsqueeze(0), bias=True) for
+                                           _ in range(self.task_sizes[i])], new_fc_bias])
+            fc_weight = torch.cat([fc_weight, new_fc_weight], dim=1)
+            fc_bias = torch.cat([self.old_fc.bias, torch.zeros(new_task_size).cuda()])
+            fc_bias = +new_fc_bias
+            logits = features @ fc_weight.permute(1, 0) + fc_bias
+            out = {"logits": logits}
 
             new_fc_weight = self.new_fc.weight
             new_fc_bias = self.new_fc.bias
-            for i in range(len(self.task_sizes)-2,-1,-1):
-                new_fc_weight = torch.cat([self.backward_prototypes.weight[i].unsqueeze(0),new_fc_weight],dim=0)
+            for i in range(len(self.task_sizes) - 2, -1, -1):
+                new_fc_weight = torch.cat([self.backward_prototypes.weight[i].unsqueeze(0), new_fc_weight], dim=0)
                 new_fc_bias = torch.cat([self.backward_prototypes.bias[i].unsqueeze(0), new_fc_bias])
-            out["train_logits"] = features[:,-self.out_dim:]@new_fc_weight.permute(1,0)+new_fc_bias 
-        out.update({"eval_logits": out["logits"],"energy_logits":self.forward_prototypes(features[:,-self.out_dim:])["logits"]})
+            out["train_logits"] = features[:, -self.out_dim:] @ new_fc_weight.permute(1, 0) + new_fc_bias
+        out.update({"eval_logits": out["logits"],
+                    "energy_logits": self.forward_prototypes(features[:, -self.out_dim:])["logits"]})
         return out
 
     def update_fc_before(self, nb_classes):
@@ -637,31 +651,36 @@ class BEEFISONet(nn.Module):
             self.out_dim = self.convnets[-1].out_dim
         if self.new_fc is not None:
             self.fe_fc = self.generate_fc(self.out_dim, nb_classes)
-            self.backward_prototypes = self.generate_fc(self.out_dim,len(self.task_sizes))
+            self.backward_prototypes = self.generate_fc(self.out_dim, len(self.task_sizes))
             self.convnets[-1].load_state_dict(self.convnets[0].state_dict())
         self.forward_prototypes = self.generate_fc(self.out_dim, nb_classes)
-        self.new_fc = self.generate_fc(self.out_dim,new_task_size)
+        self.new_fc = self.generate_fc(self.out_dim, new_task_size)
         self.task_sizes.append(new_task_size)
+
     def generate_fc(self, in_dim, out_dim):
         fc = SimpleLinear(in_dim, out_dim)
         return fc
-    
+
     def update_fc_after(self):
         if self.old_fc is not None:
             old_fc = self.generate_fc(self.feature_dim, sum(self.task_sizes))
             new_task_size = self.task_sizes[-1]
-            old_fc.weight.data = torch.cat([self.old_fc.weight.data,torch.zeros((new_task_size,self.feature_dim-self.out_dim)).cuda()],dim=0)             
+            old_fc.weight.data = torch.cat(
+                [self.old_fc.weight.data, torch.zeros((new_task_size, self.feature_dim - self.out_dim)).cuda()], dim=0)
             new_fc_weight = self.new_fc.weight.data
             new_fc_bias = self.new_fc.bias.data
-            for i in range(len(self.task_sizes)-2,-1,-1):
-                new_fc_weight = torch.cat([*[self.biases[i](self.backward_prototypes.weight.data[i].unsqueeze(0),bias=False) for _ in range(self.task_sizes[i])], new_fc_weight],dim=0)
-                new_fc_bias = torch.cat([*[self.biases[i](self.backward_prototypes.bias.data[i].unsqueeze(0),bias=True) for _ in range(self.task_sizes[i])], new_fc_bias])
-            old_fc.weight.data = torch.cat([old_fc.weight.data,new_fc_weight],dim=1)
-            old_fc.bias.data = torch.cat([self.old_fc.bias.data,torch.zeros(new_task_size).cuda()])
-            old_fc.bias.data+=new_fc_bias
+            for i in range(len(self.task_sizes) - 2, -1, -1):
+                new_fc_weight = torch.cat([*[
+                    self.biases[i](self.backward_prototypes.weight.data[i].unsqueeze(0), bias=False) for _ in
+                    range(self.task_sizes[i])], new_fc_weight], dim=0)
+                new_fc_bias = torch.cat([*[self.biases[i](self.backward_prototypes.bias.data[i].unsqueeze(0), bias=True)
+                                           for _ in range(self.task_sizes[i])], new_fc_bias])
+            old_fc.weight.data = torch.cat([old_fc.weight.data, new_fc_weight], dim=1)
+            old_fc.bias.data = torch.cat([self.old_fc.bias.data, torch.zeros(new_task_size).cuda()])
+            old_fc.bias.data += new_fc_bias
             self.old_fc = old_fc
         else:
-            self.old_fc  = self.new_fc
+            self.old_fc = self.new_fc
 
     def copy(self):
         return copy.deepcopy(self)
@@ -699,22 +718,22 @@ class AdaptiveNet(nn.Module):
     def __init__(self, args, pretrained):
         super(AdaptiveNet, self).__init__()
         self.convnet_type = args["convnet_type"]
-        self.TaskAgnosticExtractor , _ = get_convnet(args, pretrained) #Generalized blocks
+        self.TaskAgnosticExtractor, _ = get_convnet(args, pretrained)  # Generalized blocks
         self.TaskAgnosticExtractor.train()
-        self.AdaptiveExtractors = nn.ModuleList() #Specialized Blocks
-        self.pretrained=pretrained
-        self.out_dim=None
+        self.AdaptiveExtractors = nn.ModuleList()  # Specialized Blocks
+        self.pretrained = pretrained
+        self.out_dim = None
         self.fc = None
-        self.aux_fc=None
+        self.aux_fc = None
         self.task_sizes = []
-        self.args=args
+        self.args = args
 
     @property
     def feature_dim(self):
         if self.out_dim is None:
             return 0
-        return self.out_dim*len(self.AdaptiveExtractors)
-    
+        return self.out_dim * len(self.AdaptiveExtractors)
+
     def extract_vector(self, x):
         base_feature_map = self.TaskAgnosticExtractor(x)
         features = [extractor(base_feature_map) for extractor in self.AdaptiveExtractors]
@@ -725,14 +744,14 @@ class AdaptiveNet(nn.Module):
         base_feature_map = self.TaskAgnosticExtractor(x)
         features = [extractor(base_feature_map) for extractor in self.AdaptiveExtractors]
         features = torch.cat(features, 1)
-        out=self.fc(features) #{logits: self.fc(features)}
+        out = self.fc(features)  # {logits: self.fc(features)}
 
-        aux_logits=self.aux_fc(features[:,-self.out_dim:])["logits"] 
+        aux_logits = self.aux_fc(features[:, -self.out_dim:])["logits"]
 
-        out.update({"aux_logits":aux_logits,"features":features})
-        out.update({"base_features":base_feature_map})
+        out.update({"aux_logits": aux_logits, "features": features})
+        out.update({"base_features": base_feature_map})
         return out
-                
+
         '''
         {
             'features': features
@@ -740,10 +759,10 @@ class AdaptiveNet(nn.Module):
             'aux_logits':aux_logits
         }
         '''
-        
-    def update_fc(self,nb_classes):
-        _ , _new_extractor = get_convnet(self.args)
-        if len(self.AdaptiveExtractors)==0:
+
+    def update_fc(self, nb_classes):
+        _, _new_extractor = get_convnet(self.args)
+        if len(self.AdaptiveExtractors) == 0:
             self.AdaptiveExtractors.append(_new_extractor)
         else:
             self.AdaptiveExtractors.append(_new_extractor)
@@ -751,13 +770,13 @@ class AdaptiveNet(nn.Module):
 
         if self.out_dim is None:
             logging.info(self.AdaptiveExtractors[-1])
-            self.out_dim=self.AdaptiveExtractors[-1].feature_dim        
-        fc = self.generate_fc(self.feature_dim, nb_classes)             
+            self.out_dim = self.AdaptiveExtractors[-1].feature_dim
+        fc = self.generate_fc(self.feature_dim, nb_classes)
         if self.fc is not None:
             nb_output = self.fc.out_features
             weight = copy.deepcopy(self.fc.weight.data)
             bias = copy.deepcopy(self.fc.bias.data)
-            fc.weight.data[:nb_output,:self.feature_dim-self.out_dim] = weight
+            fc.weight.data[:nb_output, :self.feature_dim - self.out_dim] = weight
             fc.bias.data[:nb_output] = bias
 
         del self.fc
@@ -765,8 +784,8 @@ class AdaptiveNet(nn.Module):
 
         new_task_size = nb_classes - sum(self.task_sizes)
         self.task_sizes.append(new_task_size)
-        self.aux_fc=self.generate_fc(self.out_dim,new_task_size+1)
- 
+        self.aux_fc = self.generate_fc(self.out_dim, new_task_size + 1)
+
     def generate_fc(self, in_dim, out_dim):
         fc = SimpleLinear(in_dim, out_dim)
         return fc
@@ -775,18 +794,18 @@ class AdaptiveNet(nn.Module):
         return copy.deepcopy(self)
 
     def weight_align(self, increment):
-        weights=self.fc.weight.data
-        newnorm=(torch.norm(weights[-increment:,:],p=2,dim=1))
-        oldnorm=(torch.norm(weights[:-increment,:],p=2,dim=1))
-        meannew=torch.mean(newnorm)
-        meanold=torch.mean(oldnorm)
-        gamma=meanold/meannew
-        print('alignweights,gamma=',gamma)
-        self.fc.weight.data[-increment:,:]*=gamma
-    
+        weights = self.fc.weight.data
+        newnorm = (torch.norm(weights[-increment:, :], p=2, dim=1))
+        oldnorm = (torch.norm(weights[:-increment, :], p=2, dim=1))
+        meannew = torch.mean(newnorm)
+        meanold = torch.mean(oldnorm)
+        gamma = meanold / meannew
+        print('alignweights,gamma=', gamma)
+        self.fc.weight.data[-increment:, :] *= gamma
+
     def load_checkpoint(self, args):
         if args["init_cls"] == 50:
-            pkl_name = "{}_{}_{}_B{}_Inc{}".format( 
+            pkl_name = "{}_{}_{}_B{}_Inc{}".format(
                 args["dataset"],
                 args["seed"],
                 args["convnet_type"],
@@ -805,13 +824,13 @@ class AdaptiveNet(nn.Module):
         adap_state_dict = self.AdaptiveExtractors[0].state_dict()
 
         pretrained_base_dict = {
-            k:v
+            k: v
             for k, v in model_dict.items()
             if k in base_state_dict
         }
 
         pretrained_adap_dict = {
-            k:v
+            k: v
             for k, v in model_dict.items()
             if k in adap_state_dict
         }

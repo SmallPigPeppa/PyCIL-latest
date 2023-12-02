@@ -75,11 +75,11 @@ def _train(args):
                 state[k.replace("backbone.", "")] = state[k]
             del state[k]
 
-        if   args['model_name'] in ['memo']:
+        if args['model_name'] in ['memo']:
             # todo
             pass
-        elif args['model_name'] in ['der','memo', 'foster',  'rmm-foster',]:
-            model._network.convnets[0].load_state_dict(state, strict=False)
+        elif args['model_name'] in ['der', 'memo', 'foster', 'rmm-foster', ]:
+            model._network.pretrained_weight = state
         elif args['model_name'] in ['fetril', 'simplecil', 'ssre']:
             model._network.convnet.load_state_dict(state, strict=False)
         else:
