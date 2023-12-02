@@ -8,7 +8,7 @@
     "init_cls": 20,
     "increment": 20,
     "model_name": "lwf",
-    "convnet_type": "resnet32",
-    "device": ["0","1","2","3"],
+    "convnet_type": "resnet50",
+    "device": ["0"],
     "seed": [1993]
 }
