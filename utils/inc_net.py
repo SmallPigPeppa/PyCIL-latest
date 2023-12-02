@@ -489,11 +489,8 @@ class FOSTERNet(nn.Module):
 
     def update_fc(self, nb_classes):
         self.convnets.append(get_convnet(self.args))
-        print("len(self.convnets)",len(self.convnets))
-        print("self.pretrained_weight",self.pretrained_weight)
         if len(self.convnets) == 1 and self.pretrained_weight is not None:
             self.convnets[0].load_state_dict(self.pretrained_weight, strict=False)
-            print("########### using pretrained model ###############")
         if self.out_dim is None:
             self.out_dim = self.convnets[-1].out_dim
         fc = self.generate_fc(self.feature_dim, nb_classes)
