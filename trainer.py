@@ -80,7 +80,7 @@ def _train(args):
             model._network.pretrained_weight = state
         elif args['model_name'] in ['der', 'memo', 'foster', 'rmm-foster', ]:
             model._network.pretrained_weight = state
-        elif args['model_name'] in ['fetril', 'simplecil', 'ssre']:
+        elif args['model_name'] in ['fetril', 'simplecil']:
             model._network.convnet.load_state_dict(state, strict=False)
         elif args['model_name'] in ['ssre']:
             for k in list(state.keys()):
