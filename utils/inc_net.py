@@ -727,6 +727,7 @@ class AdaptiveNet(nn.Module):
         self.aux_fc = None
         self.task_sizes = []
         self.args = args
+        self.pretrained_weight = None
 
     @property
     def feature_dim(self):
@@ -764,6 +765,8 @@ class AdaptiveNet(nn.Module):
         _, _new_extractor = get_convnet(self.args)
         if len(self.AdaptiveExtractors) == 0:
             self.AdaptiveExtractors.append(_new_extractor)
+            if self.pretrained_weight is not None:
+                self.AdaptiveExtractors[0].load_state_dict(self.pretrained_weight, strict=False)
         else:
             self.AdaptiveExtractors.append(_new_extractor)
             self.AdaptiveExtractors[-1].load_state_dict(self.AdaptiveExtractors[-2].state_dict())

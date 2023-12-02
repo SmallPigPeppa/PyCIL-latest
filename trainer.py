@@ -76,8 +76,8 @@ def _train(args):
             del state[k]
 
         if args['model_name'] in ['memo']:
-            # todo
-            pass
+            model._network.TaskAgnosticExtractor.load_state_dict(state, strict=False)
+            model._network.pretrained_weight = state
         elif args['model_name'] in ['der', 'memo', 'foster', 'rmm-foster', ]:
             model._network.pretrained_weight = state
         elif args['model_name'] in ['fetril', 'simplecil', 'ssre']:
