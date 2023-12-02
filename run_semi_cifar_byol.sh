@@ -2,7 +2,8 @@
 ##CUDA_VISIBLE_DEVICES=1 python main.py --config=./exps_semi/cifar100-byol/10steps/fetril.json &
 #CUDA_VISIBLE_DEVICES=2 python main.py --config=./exps_semi/cifar100-byol/5steps/foster.json &
 #CUDA_VISIBLE_DEVICES=3 python main.py --config=./exps_semi/cifar100-byol/10steps/foster.json &
-
+#CUDA_VISIBLE_DEVICES=4 python main.py --config=./exps_semi/cifar100-byol/5steps/memo.json &
+#CUDA_VISIBLE_DEVICES=5 python main.py --config=./exps_semi/cifar100-byol/10steps/memo.json &
 #CUDA_VISIBLE_DEVICES=6 python main.py --config=./exps_semi/cifar100-byol/5steps/rmm-foster.json &
 #CUDA_VISIBLE_DEVICES=7 python main.py --config=./exps_semi/cifar100-byol/10steps/rmm-foster.json
 #
@@ -12,5 +13,4 @@ CUDA_VISIBLE_DEVICES=2 python main.py --config=./exps_semi/cifar100-byol/5steps/
 #CUDA_VISIBLE_DEVICES=3 python main.py --config=./exps_semi/cifar100-byol/10steps/ssre.json
 
 
-#CUDA_VISIBLE_DEVICES=4 python main.py --config=./exps_semi/cifar100-byol/5steps/memo.json &
-#CUDA_VISIBLE_DEVICES=5 python main.py --config=./exps_semi/cifar100-byol/10steps/memo.json &
+
