@@ -20,7 +20,7 @@ class SSRE(BaseLearner):
     def __init__(self, args):
         super().__init__(args)
         self.args = args
-        self._network = IncrementalNet(args['convnet_type'], False,args=args)
+        self._network = IncrementalNet(args, False)
         self._protos = []
 
 
