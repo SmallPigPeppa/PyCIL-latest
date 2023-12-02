@@ -8,7 +8,7 @@
     "init_cls": 20,
     "increment": 20,
     "model_name": "simplecil",
-    "convnet_type": "cosine_resnet18",
+    "convnet_type": "cosine_resnet50",
     "device": ["0"],
     "seed": [1993],
     

@@ -8,7 +8,7 @@
     "init_cls": 20,
     "increment": 20,
     "model_name": "rmm-foster",
-    "convnet_type": "resnet32",
+    "convnet_type": "resnet50",
     "device": ["0"],
     "seed": [1993],
     "beta1":0.97,
