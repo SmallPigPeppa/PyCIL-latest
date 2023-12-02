@@ -21,11 +21,11 @@ class MEMO(BaseLearner):
         super().__init__(args)
         self.args = args
         self._old_base = None
-        # self._network = AdaptiveNet(args, False)
-        if 'pretrained_model' in args.keys():
-            self._network = AdaptiveNet(args, True)
-        else:
-            self._network = AdaptiveNet(args, False)
+        self._network = AdaptiveNet(args, False)
+        # if 'pretrained_model' in args.keys():
+        #     self._network = AdaptiveNet(args, True)
+        # else:
+        #     self._network = AdaptiveNet(args, False)
         logging.info(f'>>> train generalized blocks:{self.args["train_base"]} train_adaptive:{self.args["train_adaptive"]}')
 
     def after_task(self):

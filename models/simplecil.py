@@ -24,11 +24,11 @@ milestones = [80, 120]
 class SimpleCIL(BaseLearner):
     def __init__(self, args):
         super().__init__(args)
-        # self._network = SimpleCosineIncrementalNet(args, False)
-        if 'pretrained_model' in args.keys():
-            self._network = SimpleCosineIncrementalNet(args, True)
-        else:
-            self._network = SimpleCosineIncrementalNet(args, False)
+        self._network = SimpleCosineIncrementalNet(args, False)
+        # if 'pretrained_model' in args.keys():
+        #     self._network = SimpleCosineIncrementalNet(args, True)
+        # else:
+        #     self._network = SimpleCosineIncrementalNet(args, False)
         self.min_lr = args['min_lr'] if args['min_lr'] is not None else 1e-8
         self.args = args
 
