@@ -163,6 +163,20 @@ def resnet18_rep(pretrained=False, **kwargs):
     return model
 
 
+def resnet50_rep(pretrained=False, **kwargs):
+    """Constructs a ResNet-18 model.
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+    """
+    model = ResNet(BasicBlock, [3, 4, 6, 3], **kwargs)
+    if pretrained:
+        pretrained_state_dict = model_zoo.load_url(model_urls['resnet50'])
+        now_state_dict        = model.state_dict()
+        now_state_dict.update(pretrained_state_dict)
+        model.load_state_dict(now_state_dict)
+    return model
+
+
 def resnet34_rep(pretrained=False, **kwargs):
     """Constructs a ResNet-34 model.
     Args:
