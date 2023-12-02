@@ -1,5 +1,5 @@
 {
-    "prefix": "pretrain_pretrain_0samples",
+    "prefix": "pretrain_0samples",
     "dataset": "imagenet100",
     "memory_size": 0,
     "shuffle": true,
