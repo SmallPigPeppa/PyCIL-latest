@@ -74,10 +74,10 @@ def _train(args):
             if "backbone" in k:
                 state[k.replace("backbone.", "")] = state[k]
             del state[k]
-        if args['model_name'] in ['der','memo',]:
+        if args['model_name'] in ['der','memo', 'foster',  'rmm-foster',]:
             # todo
             pass
-        elif args['model_name'] in ['fetril', 'foster',  'rmm-foster', 'simplecil', 'ssre']:
+        elif args['model_name'] in ['fetril', 'simplecil', 'ssre']:
             model._network.convnet.load_state_dict(state, strict=False)
         else:
             pass
