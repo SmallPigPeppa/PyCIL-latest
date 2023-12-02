@@ -1,6 +1,6 @@
 {
-    "prefix": "rmm-foster",
-    "dataset": "cifar100",
+    "prefix": "10samples",
+    "dataset": "imagenet100",
     "memory_size": 1000,
     "m_rate_list":[0.3, 0.3, 0.3, 0.4, 0.4, 0.4],
     "c_rate_list":[0.0, 0.0, 0.1, 0.1, 0.1, 0.0],
@@ -8,7 +8,7 @@
     "init_cls": 20,
     "increment": 20,
     "model_name": "rmm-foster",
-    "convnet_type": "resnet32",
+    "convnet_type": "resnet50",
     "device": ["0"],
     "seed": [1993],
     "beta1":0.97,
