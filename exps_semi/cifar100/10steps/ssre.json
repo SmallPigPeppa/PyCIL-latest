@@ -6,7 +6,7 @@
     "init_cls": 10,
     "increment": 10,
     "model_name": "ssre",
-    "convnet_type": "resnet18_rep",
+    "convnet_type": "resnet50_rep",
     "device": ["0"],
     "seed": [1993],
     "lambda_fkd":1,
