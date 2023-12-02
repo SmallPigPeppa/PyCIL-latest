@@ -24,6 +24,11 @@ def get_convnet(args, pretrained=False):
         return resnet34(pretrained=pretrained,args=args)
     elif name == "resnet50":
         return resnet50(pretrained=pretrained,args=args)
+    elif name == "resnet50_cifar":
+        m = resnet50(pretrained=pretrained,args=args)
+        m.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=2, bias=False)
+        m.maxpool = nn.Identity()
+        return m
     elif name == "cosine_resnet18":
         return cosine_resnet18(pretrained=pretrained,args=args)
     elif name == "cosine_resnet32":
