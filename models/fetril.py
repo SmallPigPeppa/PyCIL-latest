@@ -37,7 +37,11 @@ class FeTrIL(BaseLearner):
     def __init__(self, args):
         super().__init__(args)
         self.args = args
-        self._network = IncrementalNet(args, False)
+        # self._network = IncrementalNet(args, False)
+        if 'pretrained_model' in args.keys():
+            self._network = IncrementalNet(args, True)
+        else:
+            self._network = IncrementalNet(args, False)
         self._means = []
         self._svm_accs = []
 
