@@ -8,7 +8,7 @@
     "init_cls": 20,
     "increment": 20,
     "model_name": "memo",
-    "convnet_type": "memo_resnet32",
+    "convnet_type": "memo_resnet50",
     "train_base": true,
     "train_adaptive": false,
     "debug": false,
