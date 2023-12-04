@@ -61,7 +61,7 @@ class Cub2011(Dataset):
             print('Files already downloaded and verified')
             return
 
-        download_url(self.url, self.root, self.filename, self.tgz_md5)
+        # download_url(self.url, self.root, self.filename, self.tgz_md5)
 
         with tarfile.open(os.path.join(self.root, self.filename), "r:gz") as tar:
             tar.extractall(path=self.root)
@@ -82,12 +82,15 @@ class Cub2011(Dataset):
 
 
 if __name__ == "__main__":
+
+    train_dataset = Cub2011(root='./cub-dataset', train=True, download=True)
+
     import numpy as np
-    train_dataset = Cub2011(root='/mnt/mmtech01/usr/liuwenzhuo/torch_ds/cub200', train=True, download=False)
-    test_dataset = Cub2011(root='/mnt/mmtech01/usr/liuwenzhuo/torch_ds/cub200', train=False, download=False)
-    train_data, train_targets = train_dataset.data, np.array(
-        train_dataset.targets
-    )
-    test_data, test_targets = test_dataset.data, np.array(
-        test_dataset.targets
-    )
+    # train_dataset = Cub2011(root='/mnt/mmtech01/usr/liuwenzhuo/torch_ds/cub200', train=True, download=False)
+    # test_dataset = Cub2011(root='/mnt/mmtech01/usr/liuwenzhuo/torch_ds/cub200', train=False, download=False)
+    # train_data, train_targets = train_dataset.data, np.array(
+    #     train_dataset.targets
+    # )
+    # test_data, test_targets = test_dataset.data, np.array(
+    #     test_dataset.targets
+    # )

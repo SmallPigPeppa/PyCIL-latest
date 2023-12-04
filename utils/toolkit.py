@@ -87,6 +87,16 @@ def split_images_labels(imgs):
 
     return np.array(images), np.array(labels)
 
+def split_images_labels_cub200(imgs):
+    # split trainset.imgs in ImageFolder
+    images = []
+    labels = []
+    for item in imgs:
+        images.append(item[0])
+        labels.append(item[1])
+
+    return np.array(images), np.array(labels)
+
 def save_fc(args, model):
     _path = os.path.join(args['logfilename'], "fc.pt")
     if len(args['device']) > 1: 
