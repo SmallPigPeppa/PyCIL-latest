@@ -144,8 +144,8 @@ class iCUB200(iData):
     class_order = np.arange(200).tolist()
 
     def download_data(self):
-        train_dataset = Cub2011(root='/mnt/mmtech01/usr/liuwenzhuo/torch_ds', train=True, download=True)
-        test_dataset = Cub2011(root='/mnt/mmtech01/usr/liuwenzhuo/torch_ds', train=False, download=True)
+        train_dataset = Cub2011(root='/mnt/mmtech01/usr/liuwenzhuo/torch_ds/cub200', train=True, download=False)
+        test_dataset = Cub2011(root='/mnt/mmtech01/usr/liuwenzhuo/torch_ds/cub200', train=False, download=False)
         self.train_data, self.train_targets = train_dataset.data, np.array(
             train_dataset.targets
         )
