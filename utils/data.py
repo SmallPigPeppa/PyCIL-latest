@@ -1,7 +1,6 @@
 import numpy as np
 from torchvision import datasets, transforms
 from utils.toolkit import split_images_labels
-from utils.cub import Cub2011
 
 
 class iData(object):
@@ -144,11 +143,12 @@ class iCUB200(iData):
     class_order = np.arange(200).tolist()
 
     def download_data(self):
-        train_dataset = Cub2011(root='/mnt/mmtech01/usr/liuwenzhuo/torch_ds/cub200', train=True, download=False)
-        test_dataset = Cub2011(root='/mnt/mmtech01/usr/liuwenzhuo/torch_ds/cub200', train=False, download=False)
-        self.train_data, self.train_targets = train_dataset.data, np.array(
-            train_dataset.targets
-        )
-        self.test_data, self.test_targets = test_dataset.data, np.array(
-            test_dataset.targets
-        )
+        # assert 0, "You should specify the folder of your dataset"
+        train_dir = '/mnt/mmtech01/usr/liuwenzhuo/torch_ds/cub200/train/'
+        test_dir = '/mnt/mmtech01/usr/liuwenzhuo/torch_ds/cub200/test/'
+
+        train_dset = datasets.ImageFolder(train_dir)
+        test_dset = datasets.ImageFolder(test_dir)
+
+        self.train_data, self.train_targets = split_images_labels(train_dset.imgs)
+        self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
