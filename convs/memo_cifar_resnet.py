@@ -136,27 +136,27 @@ class SpecializedResNet_cifar(nn.Module):
         return features
 
 #For cifar & MEMO
-def get_resnet8_a2fc():
+def get_resnet8_a2fc(pretrained=False, **kwargs):
     basenet = GeneralizedResNet_cifar(ResNetBasicblock,8)
     adaptivenet = SpecializedResNet_cifar(ResNetBasicblock,8)
     return basenet,adaptivenet
 
-def get_resnet14_a2fc():
+def get_resnet14_a2fc(pretrained=False, **kwargs):
     basenet = GeneralizedResNet_cifar(ResNetBasicblock,14)
     adaptivenet = SpecializedResNet_cifar(ResNetBasicblock,14)
     return basenet,adaptivenet
 
-def get_resnet20_a2fc():
+def get_resnet20_a2fc(pretrained=False, **kwargs):
     basenet = GeneralizedResNet_cifar(ResNetBasicblock,20)
     adaptivenet = SpecializedResNet_cifar(ResNetBasicblock,20)
     return basenet,adaptivenet
 
-def get_resnet26_a2fc():
+def get_resnet26_a2fc(pretrained=False, **kwargs):
     basenet = GeneralizedResNet_cifar(ResNetBasicblock,26)
     adaptivenet = SpecializedResNet_cifar(ResNetBasicblock,26)
     return basenet,adaptivenet
 
-def get_resnet32_a2fc():
+def get_resnet32_a2fc(pretrained=False, **kwargs):
     basenet = GeneralizedResNet_cifar(ResNetBasicblock,32)
     adaptivenet = SpecializedResNet_cifar(ResNetBasicblock,32)
     return basenet,adaptivenet

@@ -127,7 +127,7 @@ class Bottleneck(nn.Module):
 class GeneralizedResNet_imagenet(nn.Module):
     def __init__(self, block, layers, num_classes=1000, zero_init_residual=False,
                  groups=1, width_per_group=64, replace_stride_with_dilation=None,
-                 norm_layer=None):
+                 norm_layer=None, args=None):
         super(GeneralizedResNet_imagenet, self).__init__()
         if norm_layer is None:
             norm_layer = nn.BatchNorm2d
@@ -277,32 +277,32 @@ class SpecializedResNet_imagenet(nn.Module):
         return features
 
 
-def get_resnet10_imagenet():
-    basenet = GeneralizedResNet_imagenet(BasicBlock, [1, 1, 1, 1])
+def get_resnet10_imagenet(pretrained=False, **kwargs):
+    basenet = GeneralizedResNet_imagenet(BasicBlock, [1, 1, 1, 1], **kwargs)
     adaptivenet = SpecializedResNet_imagenet(BasicBlock, [1, 1, 1, 1])
     return basenet, adaptivenet
 
 
-def get_resnet18_imagenet():
-    basenet = GeneralizedResNet_imagenet(BasicBlock, [2, 2, 2, 2])
+def get_resnet18_imagenet(pretrained=False, **kwargs):
+    basenet = GeneralizedResNet_imagenet(BasicBlock, [2, 2, 2, 2], **kwargs)
     adaptivenet = SpecializedResNet_imagenet(BasicBlock, [2, 2, 2, 2])
     return basenet, adaptivenet
 
 
-def get_resnet26_imagenet():
-    basenet = GeneralizedResNet_imagenet(Bottleneck, [2, 2, 2, 2])
+def get_resnet26_imagenet(pretrained=False, **kwargs):
+    basenet = GeneralizedResNet_imagenet(Bottleneck, [2, 2, 2, 2], **kwargs)
     adaptivenet = SpecializedResNet_imagenet(Bottleneck, [2, 2, 2, 2])
     return basenet, adaptivenet
 
 
-def get_resnet34_imagenet():
-    basenet = GeneralizedResNet_imagenet(BasicBlock, [3, 4, 6, 3])
+def get_resnet34_imagenet(pretrained=False, **kwargs):
+    basenet = GeneralizedResNet_imagenet(BasicBlock, [3, 4, 6, 3], **kwargs)
     adaptivenet = SpecializedResNet_imagenet(BasicBlock, [3, 4, 6, 3])
     return basenet, adaptivenet
 
 
-def get_resnet50_imagenet():
-    basenet = GeneralizedResNet_imagenet(Bottleneck, [3, 4, 6, 3])
+def get_resnet50_imagenet(pretrained=False, **kwargs):
+    basenet = GeneralizedResNet_imagenet(Bottleneck, [3, 4, 6, 3], **kwargs)
     adaptivenet = SpecializedResNet_imagenet(Bottleneck, [3, 4, 6, 3])
     return basenet, adaptivenet
 

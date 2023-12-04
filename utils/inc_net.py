@@ -47,13 +47,13 @@ def get_convnet(args, pretrained=False):
 
     # MEMO benchmark backbone
     elif name == 'memo_resnet18':
-        _basenet, _adaptive_net = get_memo_resnet18()
+        _basenet, _adaptive_net = get_memo_resnet18(pretrained=pretrained, args=args)
         return _basenet, _adaptive_net
     elif name == 'memo_resnet50':
-        _basenet, _adaptive_net = get_memo_resnet50()
+        _basenet, _adaptive_net = get_memo_resnet50(pretrained=pretrained, args=args)
         return _basenet, _adaptive_net
     elif name == 'memo_resnet32':
-        _basenet, _adaptive_net = get_memo_resnet32()
+        _basenet, _adaptive_net = get_memo_resnet32(pretrained=pretrained, args=args)
         return _basenet, _adaptive_net
 
     else:
