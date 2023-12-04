@@ -13,7 +13,7 @@ from utils.toolkit import target2onehot, tensor2numpy
 
 EPSILON = 1e-8
 
-init_epoch = 200
+init_epochs = 200
 init_lr = 0.1
 init_milestones = [60, 120, 170]
 init_lr_decay = 0.1
@@ -85,9 +85,10 @@ class iCaRL(BaseLearner):
                 lr=init_lr,
                 weight_decay=init_weight_decay,
             )
-            scheduler = optim.lr_scheduler.MultiStepLR(
-                optimizer=optimizer, milestones=init_milestones, gamma=init_lr_decay
-            )
+            # scheduler = optim.lr_scheduler.MultiStepLR(
+            #     optimizer=optimizer, milestones=init_milestones, gamma=init_lr_decay
+            # )
+            scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, T_max=init_epochs)
             self._init_train(train_loader, test_loader, optimizer, scheduler)
         else:
             optimizer = optim.SGD(
@@ -96,13 +97,14 @@ class iCaRL(BaseLearner):
                 momentum=0.9,
                 weight_decay=weight_decay,
             )  # 1e-5
-            scheduler = optim.lr_scheduler.MultiStepLR(
-                optimizer=optimizer, milestones=milestones, gamma=lrate_decay
-            )
+            # scheduler = optim.lr_scheduler.MultiStepLR(
+            #     optimizer=optimizer, milestones=milestones, gamma=lrate_decay
+            # )
+            scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, T_max=epochs)
             self._update_representation(train_loader, test_loader, optimizer, scheduler)
 
     def _init_train(self, train_loader, test_loader, optimizer, scheduler):
-        prog_bar = tqdm(range(init_epoch))
+        prog_bar = tqdm(range(init_epochs))
         for _, epoch in enumerate(prog_bar):
             self._network.train()
             losses = 0.0
@@ -129,7 +131,7 @@ class iCaRL(BaseLearner):
                 info = "Task {}, Epoch {}/{} => Loss {:.3f}, Train_accy {:.2f}, Test_accy {:.2f}".format(
                     self._cur_task,
                     epoch + 1,
-                    init_epoch,
+                    init_epochs,
                     losses / len(train_loader),
                     train_acc,
                     test_acc,
@@ -138,7 +140,7 @@ class iCaRL(BaseLearner):
                 info = "Task {}, Epoch {}/{} => Loss {:.3f}, Train_accy {:.2f}".format(
                     self._cur_task,
                     epoch + 1,
-                    init_epoch,
+                    init_epochs,
                     losses / len(train_loader),
                     train_acc,
                 )
