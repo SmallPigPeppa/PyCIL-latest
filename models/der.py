@@ -17,7 +17,7 @@ init_epoch = 200
 init_lr = 0.1
 init_milestones = [60, 120, 170]
 init_lr_decay = 0.1
-init_weight_decay = 0.0005
+init_weight_decay = 5e-4
 
 
 epochs = 170
@@ -102,9 +102,10 @@ class DER(BaseLearner):
                 lr=init_lr,
                 weight_decay=init_weight_decay,
             )
-            scheduler = optim.lr_scheduler.MultiStepLR(
-                optimizer=optimizer, milestones=init_milestones, gamma=init_lr_decay
-            )
+            # scheduler = optim.lr_scheduler.MultiStepLR(
+            #     optimizer=optimizer, milestones=init_milestones, gamma=init_lr_decay
+            # )
+            scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, T_max=init_epoch)
             self._init_train(train_loader, test_loader, optimizer, scheduler)
         else:
             optimizer = optim.SGD(
@@ -113,9 +114,10 @@ class DER(BaseLearner):
                 momentum=0.9,
                 weight_decay=weight_decay,
             )
-            scheduler = optim.lr_scheduler.MultiStepLR(
-                optimizer=optimizer, milestones=milestones, gamma=lrate_decay
-            )
+            # scheduler = optim.lr_scheduler.MultiStepLR(
+            #     optimizer=optimizer, milestones=milestones, gamma=lrate_decay
+            # )
+            scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, T_max=epochs)
             self._update_representation(train_loader, test_loader, optimizer, scheduler)
             if len(self._multiple_gpus) > 1:
                 self._network.module.weight_align(
