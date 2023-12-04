@@ -33,7 +33,7 @@
 CUDA_VISIBLE_DEVICES=4 python main.py --config=./exps_semi_new/cifar100/5steps/icarl.json &
 CUDA_VISIBLE_DEVICES=5 python main.py --config=./exps_semi_new/cifar100/10steps/icarl.json &
 CUDA_VISIBLE_DEVICES=6 python main.py --config=./exps_semi_new/cifar100-byol/5steps/icarl.json &
-CUDA_VISIBLE_DEVICES=7 python main.py --config=./exps_semi_new/cifar100-byol/10steps/icarl.json
+CUDA_VISIBLE_DEVICES=7 python main.py --config=./exps_semi_new/cifar100-byol/10steps/icarl.json &
 
 #
 CUDA_VISIBLE_DEVICES=0 python main.py --config=./exps_semi_new/cifar100/5steps/lwf.json &
