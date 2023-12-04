@@ -17,7 +17,7 @@ init_epoch = 200
 init_lr = 0.1
 init_milestones = [60, 120, 170]
 init_lr_decay = 0.1
-init_weight_decay = 0.0005
+init_weight_decay = 5e-4
 
 
 epochs = 170
