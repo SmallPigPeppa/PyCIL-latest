@@ -1,5 +1,5 @@
 {
-    "prefix": "0_samples",
+    "prefix": "0samples",
     "dataset": "cifar100",
     "memory_size": 2000,
     "memory_per_class": 20,
