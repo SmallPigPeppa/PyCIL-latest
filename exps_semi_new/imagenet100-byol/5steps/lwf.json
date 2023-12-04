@@ -1,5 +1,5 @@
 {
-    "prefix": "0_samples",
+    "prefix": "pretrain_0samples",
     "dataset": "imagenet100",
     "memory_size": 2000,
     "memory_per_class": 20,
