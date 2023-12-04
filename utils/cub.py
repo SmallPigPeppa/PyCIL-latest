@@ -61,7 +61,7 @@ class Cub2011(Dataset):
             print('Files already downloaded and verified')
             return
 
-        download_url(self.url, self.root, self.filename, self.tgz_md5)
+        # download_url(self.url, self.root, self.filename, self.tgz_md5)
 
         with tarfile.open(os.path.join(self.root, self.filename), "r:gz") as tar:
             tar.extractall(path=self.root)
