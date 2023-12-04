@@ -20,10 +20,6 @@ class FOSTER(BaseLearner):
         super().__init__(args)
         self.args = args
         self._network = FOSTERNet(args, False)
-        # if 'pretrained_model' in args.keys():
-        #     self._network = FOSTERNet(args, True)
-        # else:
-        #     self._network = FOSTERNet(args, False)
         self._snet = None
         self.beta1 = args["beta1"]
         self.beta2 = args["beta2"]

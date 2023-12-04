@@ -111,7 +111,8 @@ class SSRE(BaseLearner):
             self._epoch_num = self.args["epochs"]
             optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, self._network.parameters(
             )), lr=self.args["lr"], weight_decay=self.args["weight_decay"])
-            scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=self.args["step_size"], gamma=self.args["gamma"])
+            # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=self.args["step_size"], gamma=self.args["gamma"])
+            scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, T_max=self._epoch_num)
             self._train_function(train_loader, test_loader, optimizer, scheduler)
         self._build_protos()
             
