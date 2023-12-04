@@ -1,4 +1,4 @@
-CUDA_VISIBLE_DEVICES=0 python main.py --config=./exps_semi_new/cub200/5steps/fetril.json
+CUDA_VISIBLE_DEVICES=0 python main.py --config=./exps_semi_new/cub200/5steps/fetril.json &
 CUDA_VISIBLE_DEVICES=1 python main.py --config=./exps_semi_new/cub200/10steps/fetril.json &
 CUDA_VISIBLE_DEVICES=2 python main.py --config=./exps_semi_new/cub200-byol/5steps/fetril.json &
 CUDA_VISIBLE_DEVICES=3 python main.py --config=./exps_semi_new/cub200-byol/10steps/fetril.json &
