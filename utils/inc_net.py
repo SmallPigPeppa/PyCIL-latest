@@ -160,8 +160,10 @@ class IncrementalNet(BaseNet):
 
     def forward(self, x):
         x = self.convnet(x)
+        for i in range(3):
+            print('x.shape',x.shape)
         out = self.fc(x["features"])
-        for i in range(10):
+        for i in range(3):
             print("out['logits'].shape",out['logits'].shape)
         out.update(x)
         if hasattr(self, "gradcam") and self.gradcam:
