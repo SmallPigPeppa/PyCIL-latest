@@ -37,6 +37,8 @@ class PASS(BaseLearner):
 
         self._total_classes = self._known_classes + \
                               data_manager.get_task_size(self._cur_task)
+        for _ in range(10):
+            print('self._total_classes',self._total_classes)
         import pdb;pdb.set_trace()
         self._network.update_fc(self._total_classes * 4)
         self._network_module_ptr = self._network
