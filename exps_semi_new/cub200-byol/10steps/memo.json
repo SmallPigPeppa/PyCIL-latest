@@ -1,7 +1,7 @@
 {
     "prefix": "pretrain_10samples",
     "dataset": "cub200",
-    "memory_size": 1000,
+    "memory_size": 2000,
     "memory_per_class":10,
     "fixed_memory": true,
     "shuffle": true,
