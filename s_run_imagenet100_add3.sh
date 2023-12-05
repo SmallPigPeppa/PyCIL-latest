@@ -53,15 +53,15 @@
 #CUDA_VISIBLE_DEVICES=6 python main.py --config=./exps_semi_new/imagenet100-byol/5steps/il2a.json &
 #CUDA_VISIBLE_DEVICES=7 python main.py --config=./exps_semi_new/imagenet100-byol/10steps/il2a.json
 
-CUDA_VISIBLE_DEVICES=0,1,2,3 python main.py --config=./exps_semi_new/imagenet100/5steps/pass.json &
-CUDA_VISIBLE_DEVICES=4,5,6,7 python main.py --config=./exps_semi_new/imagenet100/10steps/pass.json
-CUDA_VISIBLE_DEVICES=0,1,2,3 python main.py --config=./exps_semi_new/imagenet100-byol/5steps/pass.json &
-CUDA_VISIBLE_DEVICES=4,5,6,7 python main.py --config=./exps_semi_new/imagenet100-byol/10steps/pass.json
+CUDA_VISIBLE_DEVICES=0,1,2,3 /root/miniconda3/envs/torch/bin/python main.py --config=./exps_semi_new/imagenet100/5steps/pass.json &
+CUDA_VISIBLE_DEVICES=4,5,6,7 /root/miniconda3/envs/torch/bin/python main.py --config=./exps_semi_new/imagenet100/10steps/pass.json
+CUDA_VISIBLE_DEVICES=0,1,2,3 /root/miniconda3/envs/torch/bin/python main.py --config=./exps_semi_new/imagenet100-byol/5steps/pass.json &
+CUDA_VISIBLE_DEVICES=4,5,6,7 /root/miniconda3/envs/torch/bin/python main.py --config=./exps_semi_new/imagenet100-byol/10steps/pass.json
 
-CUDA_VISIBLE_DEVICES=0,1,2,3 python main.py --config=./exps_semi_new/imagenet100/5steps/il2a.json &
-CUDA_VISIBLE_DEVICES=4,5,6,7 python main.py --config=./exps_semi_new/imagenet100/10steps/il2a.json
-CUDA_VISIBLE_DEVICES=0,1,2,3 python main.py --config=./exps_semi_new/imagenet100-byol/5steps/il2a.json &
-CUDA_VISIBLE_DEVICES=4,5,6,7 python main.py --config=./exps_semi_new/imagenet100-byol/10steps/il2a.json
+CUDA_VISIBLE_DEVICES=0,1,2,3 /root/miniconda3/envs/torch/bin/python main.py --config=./exps_semi_new/imagenet100/5steps/il2a.json &
+CUDA_VISIBLE_DEVICES=4,5,6,7 /root/miniconda3/envs/torch/bin/python main.py --config=./exps_semi_new/imagenet100/10steps/il2a.json
+CUDA_VISIBLE_DEVICES=0,1,2,3 /root/miniconda3/envs/torch/bin/python main.py --config=./exps_semi_new/imagenet100-byol/5steps/il2a.json &
+CUDA_VISIBLE_DEVICES=4,5,6,7 /root/miniconda3/envs/torch/bin/python main.py --config=./exps_semi_new/imagenet100-byol/10steps/il2a.json
 
 
 
