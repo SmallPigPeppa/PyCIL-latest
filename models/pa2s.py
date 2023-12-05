@@ -112,7 +112,13 @@ class PASS(BaseLearner):
                 inputs, targets = inputs.to(
                     self._device, non_blocking=True), targets.to(self._device, non_blocking=True)
                 inputs = torch.stack([torch.rot90(inputs, k, (2, 3)) for k in range(4)], 1)
+                print('inputs.shape-origin',inputs.shape)
+
+                ##################
                 inputs = inputs.view(-1, 3, 32, 32)
+                ###################
+
+
                 targets = torch.stack([targets * 4 + k for k in range(4)], 1).view(-1)
                 logits, loss_clf, loss_fkd, loss_proto = self._compute_pass_loss(inputs, targets)
                 loss = loss_clf + loss_fkd + loss_proto
@@ -144,6 +150,7 @@ class PASS(BaseLearner):
             logging.info(info)
 
     def _compute_pass_loss(self, inputs, targets):
+        print('inputs.shape',inputs.shape)
         logits = self._network(inputs)["logits"]
 
         loss_clf = F.cross_entropy(logits / self.args["temp"], targets)
