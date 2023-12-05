@@ -161,7 +161,7 @@ class IncrementalNet(BaseNet):
     def forward(self, x):
         x = self.convnet(x)
         for i in range(3):
-            print('x.shape',x.shape)
+            print('x["features"].shape',x["features"].shape)
         out = self.fc(x["features"])
         for i in range(3):
             print("out['logits'].shape",out['logits'].shape)
