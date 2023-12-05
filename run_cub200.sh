@@ -59,3 +59,14 @@ CUDA_VISIBLE_DEVICES=4 python main.py --config=./exps_semi_new/cub200/5steps/pas
 CUDA_VISIBLE_DEVICES=5 python main.py --config=./exps_semi_new/cub200/10steps/pass.json &
 CUDA_VISIBLE_DEVICES=6 python main.py --config=./exps_semi_new/cub200-byol/5steps/pass.json &
 CUDA_VISIBLE_DEVICES=7 python main.py --config=./exps_semi_new/cub200-byol/10steps/pass.json
+
+
+CUDA_VISIBLE_DEVICES=0 python main.py --config=./exps_semi_new/cub200/5steps/beef.json &
+CUDA_VISIBLE_DEVICES=1 python main.py --config=./exps_semi_new/cub200/10steps/beef.json &
+CUDA_VISIBLE_DEVICES=2 python main.py --config=./exps_semi_new/cub200-byol/5steps/beef.json &
+CUDA_VISIBLE_DEVICES=3 python main.py --config=./exps_semi_new/cub200-byol/10steps/beef.json &
+
+CUDA_VISIBLE_DEVICES=4 python main.py --config=./exps_semi_new/cub200/5steps/il2a.json &
+CUDA_VISIBLE_DEVICES=5 python main.py --config=./exps_semi_new/cub200/10steps/il2a.json &
+CUDA_VISIBLE_DEVICES=6 python main.py --config=./exps_semi_new/cub200-byol/5steps/il2a.json &
+CUDA_VISIBLE_DEVICES=7 python main.py --config=./exps_semi_new/cub200-byol/10steps/il2a.json
