@@ -1,27 +1,32 @@
-CUDA_VISIBLE_DEVICES=0 python main.py --config=./exps_semi_new/cifar100/5steps/beef.json &
-CUDA_VISIBLE_DEVICES=1 python main.py --config=./exps_semi_new/cifar100/10steps/beef.json &
-CUDA_VISIBLE_DEVICES=2 python main.py --config=./exps_semi_new/cifar100-byol/5steps/beef.json &
-CUDA_VISIBLE_DEVICES=3 python main.py --config=./exps_semi_new/cifar100-byol/10steps/beef.json &
+# add2
+CUDA_VISIBLE_DEVICES=0 python main.py --config=./exps_semi_new/cifar100/5steps/pass.json &
+CUDA_VISIBLE_DEVICES=1 python main.py --config=./exps_semi_new/cifar100/10steps/pass.json &
+CUDA_VISIBLE_DEVICES=2 python main.py --config=./exps_semi_new/cifar100-byol/5steps/pass.json &
+CUDA_VISIBLE_DEVICES=3 python main.py --config=./exps_semi_new/cifar100-byol/10steps/pass.json &
 
 CUDA_VISIBLE_DEVICES=4 python main.py --config=./exps_semi_new/cifar100/5steps/il2a.json &
 CUDA_VISIBLE_DEVICES=5 python main.py --config=./exps_semi_new/cifar100/10steps/il2a.json &
 CUDA_VISIBLE_DEVICES=6 python main.py --config=./exps_semi_new/cifar100-byol/5steps/il2a.json &
 CUDA_VISIBLE_DEVICES=7 python main.py --config=./exps_semi_new/cifar100-byol/10steps/il2a.json
 
-CUDA_VISIBLE_DEVICES=0 python main.py --config=./exps_semi_new/cifar100/5steps/memo.json &
-CUDA_VISIBLE_DEVICES=1 python main.py --config=./exps_semi_new/cifar100/10steps/memo.json &
-CUDA_VISIBLE_DEVICES=2 python main.py --config=./exps_semi_new/cifar100-byol/5steps/memo.json &
-CUDA_VISIBLE_DEVICES=3 python main.py --config=./exps_semi_new/cifar100-byol/10steps/memo.json &
+# add1
+CUDA_VISIBLE_DEVICES=0 python main.py --config=./exps_semi_new/cifar100/5steps/beef.json &
+CUDA_VISIBLE_DEVICES=1 python main.py --config=./exps_semi_new/cifar100/10steps/beef.json &
+CUDA_VISIBLE_DEVICES=2 python main.py --config=./exps_semi_new/cifar100-byol/5steps/beef.json &
+CUDA_VISIBLE_DEVICES=3 python main.py --config=./exps_semi_new/cifar100-byol/10steps/beef.json &
 
 CUDA_VISIBLE_DEVICES=4 python main.py --config=./exps_semi_new/cifar100/5steps/der.json &
 CUDA_VISIBLE_DEVICES=5 python main.py --config=./exps_semi_new/cifar100/10steps/der.json &
 CUDA_VISIBLE_DEVICES=6 python main.py --config=./exps_semi_new/cifar100-byol/5steps/der.json &
 CUDA_VISIBLE_DEVICES=7 python main.py --config=./exps_semi_new/cifar100-byol/10steps/der.json
 
-CUDA_VISIBLE_DEVICES=0 python main.py --config=./exps_semi_new/cifar100/5steps/pass.json &
-CUDA_VISIBLE_DEVICES=1 python main.py --config=./exps_semi_new/cifar100/10steps/pass.json &
-CUDA_VISIBLE_DEVICES=2 python main.py --config=./exps_semi_new/cifar100-byol/5steps/pass.json &
-CUDA_VISIBLE_DEVICES=3 python main.py --config=./exps_semi_new/cifar100-byol/10steps/pass.json &
+
+CUDA_VISIBLE_DEVICES=0 python main.py --config=./exps_semi_new/cifar100/5steps/memo.json &
+CUDA_VISIBLE_DEVICES=1 python main.py --config=./exps_semi_new/cifar100/10steps/memo.json &
+CUDA_VISIBLE_DEVICES=2 python main.py --config=./exps_semi_new/cifar100-byol/5steps/memo.json &
+CUDA_VISIBLE_DEVICES=3 python main.py --config=./exps_semi_new/cifar100-byol/10steps/memo.json
+
+
 
 # finished
 #CUDA_VISIBLE_DEVICES=4 python main.py --config=./exps_semi_new/cifar100/5steps/ssre.json &
