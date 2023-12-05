@@ -92,3 +92,4 @@ CUDA_VISIBLE_DEVICES=3 python main.py --config=./exps_semi_new/imagenet100-byol/
 
 
 
+
