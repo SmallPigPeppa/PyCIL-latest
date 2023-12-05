@@ -37,8 +37,7 @@ class PASS(BaseLearner):
 
         self._total_classes = self._known_classes + \
                               data_manager.get_task_size(self._cur_task)
-        for _ in range(10):
-            print('self._total_classes',self._total_classes)
+
 
         self._network.update_fc(self._total_classes * 4)
         self._network_module_ptr = self._network
@@ -112,7 +111,6 @@ class PASS(BaseLearner):
                 inputs, targets = inputs.to(
                     self._device, non_blocking=True), targets.to(self._device, non_blocking=True)
                 inputs = torch.stack([torch.rot90(inputs, k, (2, 3)) for k in range(4)], 1)
-                print('inputs.shape-origin',inputs.shape)
 
                 ##################
                 # inputs = inputs.view(-1, 3, 32, 32)
@@ -151,7 +149,6 @@ class PASS(BaseLearner):
             logging.info(info)
 
     def _compute_pass_loss(self, inputs, targets):
-        print('inputs.shape',inputs.shape)
         logits = self._network(inputs)["logits"]
 
         loss_clf = F.cross_entropy(logits / self.args["temp"], targets)
