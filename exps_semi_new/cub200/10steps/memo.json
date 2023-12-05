@@ -15,7 +15,7 @@
     "skip": false,
     "device": ["0"],
     "seed": [1993],
-    "scheduler": "steplr",
+    "scheduler": "cosine",
     "init_epoch": 200,
     "t_max": null,
     "init_lr" : 0.1,
