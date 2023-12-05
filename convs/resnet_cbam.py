@@ -209,6 +209,7 @@ class ResNet(nn.Module):
         dim = x.size()[-1]
         pool = nn.AvgPool2d(dim, stride=1)
         x = pool(x)
+        print('x.shape',x.shape)
         x = x.view(x.size(0), -1)
         return {"features": x}
 
