@@ -115,7 +115,8 @@ class PASS(BaseLearner):
                 print('inputs.shape-origin',inputs.shape)
 
                 ##################
-                inputs = inputs.view(-1, 3, 32, 32)
+                # inputs = inputs.view(-1, 3, 32, 32)
+                inputs = inputs.view(-1, *inputs.shape[2:])
                 ###################
 
 
