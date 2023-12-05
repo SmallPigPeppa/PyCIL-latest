@@ -154,8 +154,8 @@ class PASS(BaseLearner):
 
         index = np.random.choice(range(self._known_classes),size=self.args["batch_size"],replace=True)
 
-        index = np.random.choice(range(self._known_classes), size=self.args["batch_size"] * int(
-            self._known_classes / (self._total_classes - self._known_classes)), replace=True)
+        # index = np.random.choice(range(self._known_classes), size=self.args["batch_size"] * int(
+        #     self._known_classes / (self._total_classes - self._known_classes)), replace=True)
         # print(index)
         # print(np.concatenate(self._protos))
         proto_features = np.array(self._protos)[index]
