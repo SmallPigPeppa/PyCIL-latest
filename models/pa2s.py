@@ -78,8 +78,9 @@ class PASS(BaseLearner):
             self._epoch_num = self.args["epochs"]
             optimizer = torch.optim.Adam(self._network.parameters(), lr=self.args["lr"],
                                          weight_decay=self.args["weight_decay"])
-            scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=self.args["step_size"],
-                                                        gamma=self.args["gamma"])
+            # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=self.args["step_size"],
+            #                                             gamma=self.args["gamma"])
+            scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, T_max=self._epoch_num)
             self._train_function(train_loader, test_loader, optimizer, scheduler)
         self._build_protos()
 
@@ -150,10 +151,10 @@ class PASS(BaseLearner):
         features_old = self.old_network_module_ptr.extract_vector(inputs)
         loss_fkd = self.args["lambda_fkd"] * torch.dist(features, features_old, 2)
 
-        # index = np.random.choice(range(self._known_classes),size=self.args["batch_size"],replace=True)
+        index = np.random.choice(range(self._known_classes),size=self.args["batch_size"],replace=True)
 
-        index = np.random.choice(range(self._known_classes), size=self.args["batch_size"] * int(
-            self._known_classes / (self._total_classes - self._known_classes)), replace=True)
+        # index = np.random.choice(range(self._known_classes), size=self.args["batch_size"] * int(
+        #     self._known_classes / (self._total_classes - self._known_classes)), replace=True)
         # print(index)
         # print(np.concatenate(self._protos))
         proto_features = np.array(self._protos)[index]
