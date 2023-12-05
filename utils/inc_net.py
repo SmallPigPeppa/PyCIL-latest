@@ -162,7 +162,7 @@ class IncrementalNet(BaseNet):
         x = self.convnet(x)
         out = self.fc(x["features"])
         for i in range(10):
-            print(out)
+            print("out",out)
         out.update(x)
         if hasattr(self, "gradcam") and self.gradcam:
             out["gradcam_gradients"] = self._gradcam_gradients
