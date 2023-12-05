@@ -14,7 +14,7 @@
     "pretrained_model": "/mnt/mmtech01/usr/liuwenzhuo/code/solo-learn/trained_models/byol-official/byol-resnet50-imagenet-100ep-25x5nqle-ep=99.ckpt",
     
     "init_epoch": 200,
-    "init_lr": 0.01,
+    "init_lr": 0.1,
     "batch_size": 256,
     "weight_decay": 0.05,
     "init_lr_decay": 0.1,

@@ -13,7 +13,7 @@
     "seed": [1993],
     
     "init_epoch": 200,
-    "init_lr": 0.01,
+    "init_lr": 0.1,
     "batch_size": 256,
     "weight_decay": 0.05,
     "init_lr_decay": 0.1,

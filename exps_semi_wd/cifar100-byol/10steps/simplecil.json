@@ -13,7 +13,7 @@
     "seed": [1993],
     "pretrained_model": "/mnt/mmtech01/usr/liuwenzhuo/code/solo-learn/trained_models/byol/t3pmk238/byol-imagenet32-t3pmk238-ep=999.ckpt",
     "init_epoch": 200,
-    "init_lr": 0.01,
+    "init_lr": 0.1,
     "batch_size": 256,
     "weight_decay": 0.05,
     "init_lr_decay": 0.1,
