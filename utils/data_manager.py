@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 from torch.utils.data import Dataset
 from torchvision import transforms
-from utils.data import iCIFAR10, iCIFAR100, iImageNet100, iImageNet1000,iCUB200
+from utils.data import iCIFAR10, iCIFAR100, iImageNet100, iImageNet1000,iCUB200,iCUB100
 from tqdm import tqdm
 
 class DataManager(object):
@@ -279,6 +279,8 @@ def _get_idata(dataset_name):
         return iImageNet100()
     elif name == "cub200":
         return iCUB200()
+    elif name == "cub100":
+        return iCUB100()
     else:
         raise NotImplementedError("Unknown dataset {}.".format(dataset_name))
 

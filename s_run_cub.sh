@@ -1,6 +1,3 @@
-
-
-
 CUDA_VISIBLE_DEVICES=0 python main.py --config=./exps_semi_new/cub100/5steps/pass.json &
 CUDA_VISIBLE_DEVICES=1 python main.py --config=./exps_semi_new/cub100/10steps/pass.json &
 CUDA_VISIBLE_DEVICES=2 python main.py --config=./exps_semi_new/cub100-byol/5steps/pass.json &
