@@ -150,10 +150,10 @@ class PASS(BaseLearner):
         features_old = self.old_network_module_ptr.extract_vector(inputs)
         loss_fkd = self.args["lambda_fkd"] * torch.dist(features, features_old, 2)
 
-        index = np.random.choice(range(self._known_classes),size=self.args["batch_size"],replace=True)
+        # index = np.random.choice(range(self._known_classes),size=self.args["batch_size"],replace=True)
 
-        # index = np.random.choice(range(self._known_classes), size=self.args["batch_size"] * int(
-        #     self._known_classes / (self._total_classes - self._known_classes)), replace=True)
+        index = np.random.choice(range(self._known_classes), size=self.args["batch_size"] * int(
+            self._known_classes / (self._total_classes - self._known_classes)), replace=True)
         # print(index)
         # print(np.concatenate(self._protos))
         proto_features = np.array(self._protos)[index]
