@@ -142,7 +142,7 @@ class PASS(BaseLearner):
 
     def _compute_pass_loss(self, inputs, targets):
         logits = self._network(inputs)["logits"]
-        import pdb;pdb.set_trace()
+        print(logits.shape)
         loss_clf = F.cross_entropy(logits / self.args["temp"], targets)
 
         if self._cur_task == 0:
