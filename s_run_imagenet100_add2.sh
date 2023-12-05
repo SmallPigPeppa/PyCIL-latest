@@ -82,6 +82,7 @@ CUDA_VISIBLE_DEVICES=3 python main.py --config=./exps_semi_new/imagenet100-byol/
 #CUDA_VISIBLE_DEVICES=6 python main.py --config=./exps_semi_new/imagenet100-byol/5steps/ucir.json &
 #CUDA_VISIBLE_DEVICES=7 python main.py --config=./exps_semi_new/imagenet100-byol/10steps/ucir.json
 #
+
 #
 
 
