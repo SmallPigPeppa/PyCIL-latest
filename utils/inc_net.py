@@ -161,7 +161,8 @@ class IncrementalNet(BaseNet):
     def forward(self, x):
         x = self.convnet(x)
         out = self.fc(x["features"])
-        print(out)
+        for i in range(10):
+            print(out)
         out.update(x)
         if hasattr(self, "gradcam") and self.gradcam:
             out["gradcam_gradients"] = self._gradcam_gradients
