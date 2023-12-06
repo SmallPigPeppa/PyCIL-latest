@@ -58,8 +58,8 @@ class PASS(BaseLearner):
         self.test_loader = DataLoader(
             test_dataset, batch_size=self.args["batch_size"], shuffle=False, num_workers=self.args["num_workers"])
 
-        # if len(self._multiple_gpus) > 1:
-            # self._network = nn.DataParallel(self._network, self._multiple_gpus)
+        if len(self._multiple_gpus) > 1:
+            self._network = nn.DataParallel(self._network, self._multiple_gpus)
         self._train(self.train_loader, self.test_loader)
 
         if len(self._multiple_gpus) > 1:
