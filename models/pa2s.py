@@ -155,7 +155,8 @@ class PASS(BaseLearner):
 
         if self._cur_task == 0:
             return logits, loss_clf, torch.tensor(0.), torch.tensor(0.)
-
+        # for _ in range(10):
+        print('inputs.shape',inputs.shape)
         features = self._network_module_ptr.extract_vector(inputs)
         features_old = self.old_network_module_ptr.extract_vector(inputs)
         loss_fkd = self.args["lambda_fkd"] * torch.dist(features, features_old, 2)
