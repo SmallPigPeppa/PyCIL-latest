@@ -25,11 +25,10 @@ class PASS(BaseLearner):
     def after_task(self):
         self._known_classes = self._total_classes
         self._old_network = self._network.copy().freeze()
-        # self.old_network_module_ptr = self._old_network
-        # if hasattr(self._old_network, "module"):
-        #     self.old_network_module_ptr = self._old_network.module
-        # else:
-        #     self.old_network_module_ptr = self._old_network
+        if hasattr(self._old_network, "module"):
+            self.old_network_module_ptr = self._old_network.module
+        else:
+            self.old_network_module_ptr = self._old_network
         self.save_checkpoint("{}_{}_{}".format(self.args["model_name"], self.args["init_cls"], self.args["increment"]))
 
     def incremental_train(self, data_manager):
@@ -41,7 +40,7 @@ class PASS(BaseLearner):
 
 
         self._network.update_fc(self._total_classes * 4)
-        # self._network_module_ptr = self._network
+        self._network_module_ptr = self._network
         logging.info(
             'Learning on {}-{}'.format(self._known_classes, self._total_classes))
 
@@ -59,12 +58,12 @@ class PASS(BaseLearner):
         self.test_loader = DataLoader(
             test_dataset, batch_size=self.args["batch_size"], shuffle=False, num_workers=self.args["num_workers"])
 
-        # if len(self._multiple_gpus) > 1:
-        #     self._network = nn.DataParallel(self._network_network, self._multiple_gpus)
+        if len(self._multiple_gpus) > 1:
+            self._network = nn.DataParallel(self._network, self._multiple_gpus)
         self._train(self.train_loader, self.test_loader)
 
-        # if len(self._multiple_gpus) > 1:
-        #     self._network = self._network.module
+        if len(self._multiple_gpus) > 1:
+            self._network = self._network.module
 
     def _train(self, train_loader, test_loader):
 
@@ -75,11 +74,8 @@ class PASS(BaseLearner):
                                          self._cur_task))["model_state_dict"])
             resume = True
         self._network.to(self._device)
-        # self._old_network.to(self._device)
-        # if hasattr(self._network, "module"):
-        #     self._network_module_ptr = self._network.module
-            # if len(self._multiple_gpus) > 1:
-            #     self._network_module_ptr = nn.DataParallel(self._network_module_ptr, self._multiple_gpus)
+        if hasattr(self._network, "module"):
+            self._network_module_ptr = self._network.module
         if not resume:
             self._epoch_num = self.args["epochs"]
             optimizer = torch.optim.Adam(self._network.parameters(), lr=self.args["lr"],
@@ -160,10 +156,8 @@ class PASS(BaseLearner):
         if self._cur_task == 0:
             return logits, loss_clf, torch.tensor(0.), torch.tensor(0.)
 
-        # features = self._network_module_ptr.extract_vector(inputs)
-        # features_old = self.old_network_module_ptr.extract_vector(inputs)
-        features = self._network.extract_vector(inputs)
-        features_old = self.old_network.extract_vector(inputs)
+        features = self._network_module_ptr.extract_vector(inputs)
+        features_old = self.old_network_module_ptr.extract_vector(inputs)
         loss_fkd = self.args["lambda_fkd"] * torch.dist(features, features_old, 2)
 
         index = np.random.choice(range(self._known_classes),size=self.args["batch_size"],replace=True)
@@ -179,7 +173,7 @@ class PASS(BaseLearner):
         proto_features = torch.from_numpy(proto_features).float().to(self._device, non_blocking=True)
         proto_targets = torch.from_numpy(proto_targets).to(self._device, non_blocking=True)
 
-        proto_logits = self._network.fc(proto_features)["logits"]
+        proto_logits = self._network_module_ptr.fc(proto_features)["logits"]
         loss_proto = self.args["lambda_proto"] * F.cross_entropy(proto_logits / self.args["temp"], proto_targets)
         return logits, loss_clf, loss_fkd, loss_proto
 
