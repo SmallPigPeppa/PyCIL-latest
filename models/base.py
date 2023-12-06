@@ -11,8 +11,8 @@ import os
 EPSILON = 1e-8
 batch_size = 64
 
-
-class BaseLearner(object):
+# class BaseLearner(object):
+class BaseLearner(nn.Module):
     def __init__(self, args):
         self.args = args
         self._cur_task = -1
