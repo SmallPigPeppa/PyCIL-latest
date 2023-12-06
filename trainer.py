@@ -97,7 +97,7 @@ def _train(args):
             "Trainable params: {}".format(count_parameters(model._network, True))
         )
         if args['model_name'] in ['pass', 'il2a'] and len(args["device"]) > 1:
-            model = torch.nn.DataParallel(model, args["device"])
+            model = torch.nn.DataParallel(model, args["device"]).cuda()
             model.module.incremental_train(data_manager)
         else:
             model.incremental_train(data_manager)
