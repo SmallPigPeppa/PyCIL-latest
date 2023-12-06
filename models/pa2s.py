@@ -58,8 +58,8 @@ class PASS(BaseLearner):
         self.test_loader = DataLoader(
             test_dataset, batch_size=self.args["batch_size"], shuffle=False, num_workers=self.args["num_workers"])
 
-        # if len(self._multiple_gpus) > 1:
-            # self._network = nn.DataParallel(self._network, self._multiple_gpus)
+        if len(self._multiple_gpus) > 1:
+            self._network = nn.DataParallel(self._network, self._multiple_gpus)
         self._train(self.train_loader, self.test_loader)
 
         if len(self._multiple_gpus) > 1:
@@ -76,6 +76,8 @@ class PASS(BaseLearner):
         self._network.to(self._device)
         if hasattr(self._network, "module"):
             self._network_module_ptr = self._network.module
+            if len(self._multiple_gpus) > 1:
+                self._network_module_ptr = nn.DataParallel(self._network_module_ptr, self._multiple_gpus)
         if not resume:
             self._epoch_num = self.args["epochs"]
             optimizer = torch.optim.Adam(self._network.parameters(), lr=self.args["lr"],
