@@ -25,10 +25,10 @@ class IL2A(BaseLearner):
     def after_task(self):
         self._known_classes = self._total_classes
         self._old_network = self._network.copy().freeze()
-        if hasattr(self._old_network,"module"):
-            self.old_network_module_ptr = self._old_network.module
-        else:
-            self.old_network_module_ptr = self._old_network
+        # if hasattr(self._old_network,"module"):
+        #     self.old_network_module_ptr = self._old_network.module
+        # else:
+        #     self.old_network_module_ptr = self._old_network
         self.save_checkpoint("{}_{}_{}".format(self.args["model_name"],self.args["init_cls"],self.args["increment"]))
     def incremental_train(self, data_manager):
         self.data_manager = data_manager
@@ -37,7 +37,7 @@ class IL2A(BaseLearner):
         task_size = self.data_manager.get_task_size(self._cur_task)
         self._total_classes = self._known_classes + task_size
         self._network.update_fc(self._known_classes,self._total_classes,int((task_size-1)*task_size/2))
-        self._network_module_ptr = self._network
+        # self._network_module_ptr = self._network
         logging.info(
             'Learning on {}-{}'.format(self._known_classes, self._total_classes))
 
@@ -70,8 +70,8 @@ class IL2A(BaseLearner):
             self._network.load_state_dict(torch.load("{}_{}_{}_{}.pkl".format(self.args["model_name"],self.args["init_cls"],self.args["increment"],self._cur_task))["model_state_dict"])
             resume = True
         self._network.to(self._device)
-        if hasattr(self._network, "module"):
-            self._network_module_ptr = self._network.module
+        # if hasattr(self._network, "module"):
+        #     self._network_module_ptr = self._network.module
         if not resume:
             self._epoch_num = self.args["epochs"]
             optimizer = torch.optim.Adam(self._network.parameters(), lr=self.args["lr"], weight_decay=self.args["weight_decay"])
@@ -130,14 +130,21 @@ class IL2A(BaseLearner):
             logging.info(info)
 
     def _compute_il2a_loss(self,inputs, targets):
-        logits = self._network(inputs)["logits"]
+        # logits = self._network(inputs)["logits"]
+        outs = self._network(inputs)
+        logits = outs["logits"]
+        features = outs["features"]
         loss_clf = F.cross_entropy(logits/self.args["temp"], targets)
         
         if self._cur_task == 0:
             return logits, loss_clf, torch.tensor(0.), torch.tensor(0.)
-        
-        features = self._network_module_ptr.extract_vector(inputs)
-        features_old = self.old_network_module_ptr.extract_vector(inputs)
+
+        with torch.no_grad():
+            outs_old = self. _old_network(inputs)
+        logits_old = outs_old["logits"]
+        features_old = outs_old["features"]
+        # features = self._network_module_ptr.extract_vector(inputs)
+        # features_old = self.old_network_module_ptr.extract_vector(inputs)
         loss_fkd = self.args["lambda_fkd"] * torch.dist(features, features_old, 2)
         
         index = np.random.choice(range(self._known_classes),size=self.args["batch_size"],replace=True)
@@ -147,7 +154,11 @@ class IL2A(BaseLearner):
         proto_features = torch.from_numpy(proto_features).float().to(self._device,non_blocking=True)
         proto_targets = torch.from_numpy(proto_targets).to(self._device,non_blocking=True)
         
-        proto_logits = self._network_module_ptr.fc(proto_features)["logits"][:,:self._total_classes]
+        # proto_logits = self._network_module_ptr.fc(proto_features)["logits"][:,:self._total_classes]
+        if hasattr(self._network, "module"):
+            proto_logits = self._network.module.fc(proto_features)["logits"][:,:self._total_classes]
+        else:
+            proto_logits = self._network.fc(proto_features)["logits"][:,:self._total_classes]
         
 
         proto_logits = self._semantic_aug(proto_logits,proto_targets,self.args["ratio"])
@@ -158,7 +169,11 @@ class IL2A(BaseLearner):
     
     def _semantic_aug(self,proto_logits,proto_targets,ratio):
         # weight_fc = self._network_module_ptr.fc.weight.data[:self._total_classes] # don't use it ! data is not involved in back propagation
-        weight_fc = self._network_module_ptr.fc.weight[:self._total_classes]
+        # weight_fc = self._network_module_ptr.fc.weight[:self._total_classes]
+        if hasattr(self._network, "module"):
+            weight_fc  = self._network.module.fc.weight[:self._total_classes]
+        else:
+            weight_fc  = self._network.fc.weight[:self._total_classes]
         N,C,D = self.args["batch_size"], self._total_classes, weight_fc.shape[1]
         
         N_weight = weight_fc.expand(N,C,D) # NCD

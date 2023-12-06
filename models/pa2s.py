@@ -39,7 +39,7 @@ class PASS(BaseLearner):
                               data_manager.get_task_size(self._cur_task)
 
         self._network.update_fc(self._total_classes * 4)
-        self._network_module_ptr = self._network
+        # self._network_module_ptr = self._network
         logging.info(
             'Learning on {}-{}'.format(self._known_classes, self._total_classes))
 
