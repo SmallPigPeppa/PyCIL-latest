@@ -159,7 +159,8 @@ class PASS(BaseLearner):
 
         # features = self._network_module_ptr.extract_vector(inputs)
         # features_old = self.old_network_module_ptr.extract_vector(inputs)
-        outs_old = self. _old_network(inputs)
+        with torch.no_grad():
+            outs_old = self. _old_network(inputs)
         logits_old = outs_old["logits"]
         features_old = outs_old["features"]
 
