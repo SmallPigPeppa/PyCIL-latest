@@ -75,7 +75,7 @@ class PASS(BaseLearner):
                                          self._cur_task))["model_state_dict"])
             resume = True
         self._network.to(self._device)
-        self._old_network.to(self._device)
+        # self._old_network.to(self._device)
         # if hasattr(self._network, "module"):
         #     self._network_module_ptr = self._network.module
             # if len(self._multiple_gpus) > 1:
