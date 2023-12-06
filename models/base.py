@@ -15,6 +15,7 @@ batch_size = 64
 class BaseLearner(nn.Module):
 # class BaseLearner(object):
     def __init__(self, args):
+        super(BaseLearner, self).__init__()
         self.args = args
         self._cur_task = -1
         self._known_classes = 0
