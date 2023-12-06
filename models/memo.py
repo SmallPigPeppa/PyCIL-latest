@@ -163,10 +163,10 @@ class MEMO(BaseLearner):
                     gamma=self.args['lrate_decay']
                 )
             elif self.args['scheduler'] == 'cosine':
-                assert self.args['t_max'] is not None
+                # assert self.args['t_max'] is not None
                 scheduler = optim.lr_scheduler.CosineAnnealingLR(
                     optimizer=optimizer,
-                    T_max=self.args['t_max']
+                    T_max=self.args['epochs']
                 )
             else:
                 raise NotImplementedError
