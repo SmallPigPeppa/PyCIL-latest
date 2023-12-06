@@ -80,7 +80,7 @@ def _train(args):
             model._network.pretrained_weight = state
         elif args['model_name'] in ['der', 'foster', 'rmm-foster', ]:
             model._network.pretrained_weight = state
-        elif args['model_name'] in ['fetril', 'simplecil','pass','il2a','icarl','lwf','ucir','podnet']:
+        elif args['model_name'] in ['fetril', 'simplecil', 'pass', 'il2a', 'icarl', 'lwf', 'ucir', 'podnet']:
             model._network.convnet.load_state_dict(state, strict=False)
         elif args['model_name'] in ['ssre']:
             for k in list(state.keys()):
@@ -96,7 +96,7 @@ def _train(args):
         logging.info(
             "Trainable params: {}".format(count_parameters(model._network, True))
         )
-        if args['model_name'] in ['pass', 'il2a'] and len(args["device"])>1 :
+        if args['model_name'] in ['pass', 'il2a'] and len(args["device"]) > 1:
             model = torch.nn.DataParallel(model, args["device"])
             model.module.incremental_train(data_manager)
         else:
