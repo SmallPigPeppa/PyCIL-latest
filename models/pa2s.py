@@ -38,7 +38,6 @@ class PASS(BaseLearner):
         self._total_classes = self._known_classes + \
                               data_manager.get_task_size(self._cur_task)
 
-
         self._network.update_fc(self._total_classes * 4)
         self._network_module_ptr = self._network
         logging.info(
@@ -117,7 +116,6 @@ class PASS(BaseLearner):
                 inputs = inputs.view(-1, *inputs.shape[2:])
                 ###################
 
-
                 targets = torch.stack([targets * 4 + k for k in range(4)], 1).view(-1)
                 logits, loss_clf, loss_fkd, loss_proto = self._compute_pass_loss(inputs, targets)
                 loss = loss_clf + loss_fkd + loss_proto
@@ -149,18 +147,28 @@ class PASS(BaseLearner):
             logging.info(info)
 
     def _compute_pass_loss(self, inputs, targets):
-        logits = self._network(inputs)["logits"]
+        outs = self._network(inputs)
+        logits = outs["logits"]
+        features = outs["features"]
+
+        outs_old = self. _old_network(inputs)
+        logits_old = outs_old["logits"]
+        features_old = outs_old["features"]
+
+
 
         loss_clf = F.cross_entropy(logits / self.args["temp"], targets)
 
         if self._cur_task == 0:
             return logits, loss_clf, torch.tensor(0.), torch.tensor(0.)
 
-        features = self._network_module_ptr.extract_vector(inputs)
-        features_old = self.old_network_module_ptr.extract_vector(inputs)
+
+        # features = self._network_module_ptr.extract_vector(inputs)
+        # features_old = self.old_network_module_ptr.extract_vector(inputs)
+
         loss_fkd = self.args["lambda_fkd"] * torch.dist(features, features_old, 2)
 
-        index = np.random.choice(range(self._known_classes),size=self.args["batch_size"],replace=True)
+        index = np.random.choice(range(self._known_classes), size=self.args["batch_size"], replace=True)
 
         # index = np.random.choice(range(self._known_classes), size=self.args["batch_size"] * int(
         #     self._known_classes / (self._total_classes - self._known_classes)), replace=True)
@@ -218,4 +226,3 @@ class PASS(BaseLearner):
             nme_accy = None
 
         return cnn_accy, nme_accy
-
