@@ -1,6 +1,6 @@
 {
     "prefix": "pretrain_0samples",
-    "dataset": "cub100",
+    "dataset": "cub200",
     "memory_size": 0,
     "shuffle": true,
     "init_cls": 20,
