@@ -1,10 +1,10 @@
 {
     "prefix": "0samples",
-    "dataset": "cub100",
+    "dataset": "cub200",
     "memory_size": 0,
     "shuffle": true,
-    "init_cls": 20,
-    "increment": 20,
+    "init_cls": 40,
+    "increment": 40,
     "model_name": "il2a",
     "convnet_type": "resnet50_cbam",
     "device": ["0","1","2","3"],
