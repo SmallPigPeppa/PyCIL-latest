@@ -15,7 +15,7 @@
     "skip": false,
     "device": ["0"],
     "seed": [1993],
-    "pretrained_model": "/mnt/mmtech01/usr/liuwenzhuo/code/solo-learn/trained_models/byol-official/byol-resnet50-imagenet-100ep-25x5nqle-ep=99.ckpt",
+    "pretrained_model": "/mnt/mmtech01/usr/liuwenzhuo/code/test-code/solo-learn-latest/trained_models/byol/6rj972ec/byol-imagenet-mini-6rj972ec-ep=99.ckpt",
     "scheduler": "cosine",
     "init_epoch": 200,
     "t_max": null,
