@@ -132,8 +132,9 @@ class iMini(iData):
         transforms.RandomHorizontalFlip(),
     ]
     test_trsf = [
-        transforms.Resize(84),
-        # transforms.CenterCrop(224),
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.Resize(84)
     ]
     common_trsf = [
         transforms.ToTensor(),
@@ -144,8 +145,8 @@ class iMini(iData):
 
     def download_data(self):
         # assert 0, "You should specify the folder of your dataset"
-        train_dir = '/mnt/mmtech01/usr/liuwenzhuo/torch_ds/miniImageNet//train/'
-        test_dir = '/mnt/mmtech01/usr/liuwenzhuo/torch_ds/miniImageNet//val/'
+        train_dir = '/mnt/mmtech01/usr/liuwenzhuo/torch_ds/miniImageNet/train/'
+        test_dir = '/mnt/mmtech01/usr/liuwenzhuo/torch_ds/miniImageNet/val/'
 
         train_dset = datasets.ImageFolder(train_dir)
         test_dset = datasets.ImageFolder(test_dir)
