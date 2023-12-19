@@ -5,7 +5,8 @@
 #CUDA_VISIBLE_DEVICES=2 python main.py --config=./exps_semi_new/mini-byol/5steps/der.json &
 #CUDA_VISIBLE_DEVICES=3 python main.py --config=./exps_semi_new/mini-byol/10steps/der.json &
 #
-CUDA_VISIBLE_DEVICES=4 python main.py --config=./exps_semi_new/mini-byol/5steps/pass.json
+#CUDA_VISIBLE_DEVICES=4 python main.py --config=./exps_semi_new/mini-byol/5steps/pass.json
+CUDA_VISIBLE_DEVICES=0,1,2,3 /root/miniconda3/envs/torch/bin/python main.py --config=./exps_semi_new/imagenet100-byol/5steps/pass.json
 #CUDA_VISIBLE_DEVICES=5 python main.py --config=./exps_semi_new/mini-byol/10steps/pass.json &
 #
 #CUDA_VISIBLE_DEVICES=6 python main.py --config=./exps_semi_new/mini-byol/5steps/ssre.json &
