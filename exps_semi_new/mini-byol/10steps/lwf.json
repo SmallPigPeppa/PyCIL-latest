@@ -11,5 +11,5 @@
     "convnet_type": "resnet50",
     "device": ["0"],
     "seed": [1993],
-    "pretrained_model": "/mnt/mmtech01/usr/liuwenzhuo/code/test-code/solo-learn-latest/trained_models/byol/6rj972ec/byol-imagenet-imagenet-mini-6rj972ec-ep=99.ckpt"
+    "pretrained_model": "/mnt/mmtech01/usr/liuwenzhuo/code/test-code/solo-learn-latest/trained_models/byol/6rj972ec/byol-imagenet-mini-6rj972ec-ep=99.ckpt"
 }
