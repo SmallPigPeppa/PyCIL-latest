@@ -1,6 +1,6 @@
 {
     "prefix": "pretrain_0samples",
-    "dataset": "imagenet100",
+    "dataset": "mini",
     "memory_size": 2000,
     "memory_per_class": 20,
     "fixed_memory": true,
