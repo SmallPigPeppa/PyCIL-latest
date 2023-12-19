@@ -281,7 +281,7 @@ def _get_idata(dataset_name):
         return iCUB200()
     elif name == "cub100":
         return iCUB100()
-    elif name == "mini":
+    elif name == "imagenet-mini":
         return iMini()
     else:
         raise NotImplementedError("Unknown dataset {}.".format(dataset_name))

@@ -1,6 +1,6 @@
 {
     "prefix": "pretrain_0samples",
-    "dataset": "mini",
+    "dataset": "imagenet-mini",
     "memory_size": 0,
     "memory_per_class": 0,
     "fixed_memory": true,
@@ -11,7 +11,7 @@
     "convnet_type": "cosine_resnet50",
     "device": ["0"],
     "seed": [1993],
-    "pretrained_model": "/mnt/mmtech01/usr/liuwenzhuo/code/test-code/solo-learn-latest/trained_models/byol/6rj972ec/byol-imagenet-mini-6rj972ec-ep=99.ckpt",
+    "pretrained_model": "/mnt/mmtech01/usr/liuwenzhuo/code/test-code/solo-learn-latest/trained_models/byol/6rj972ec/byol-imagenet-imagenet-mini-6rj972ec-ep=99.ckpt",
     
     "init_epoch": 200,
     "init_lr": 0.01,
